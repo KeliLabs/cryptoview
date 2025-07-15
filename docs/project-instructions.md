@@ -185,8 +185,8 @@ blockchain-investment-dashboard/
 ## Implementation Roadmap
 
 ### Week 1-2: Project Setup & Core Infrastructure
-- [ ] Initialize Next.js project with TypeScript
-- [ ] Set up PostgreSQL database and Prisma ORM
+- [x] Initialize Next.js project with TypeScript
+- [x] Set up PostgreSQL database and Prisma ORM
 - [ ] Configure Tailwind CSS with dark theme
 - [ ] Set up basic project structure and routing
 - [ ] Create environment configuration
