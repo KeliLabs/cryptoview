@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cryptocurrency {
+  id           String @id @default(cuid())
+  symbol       String
+  name         String
+  blockchain   String
+  blockchairId String?
+  coingeckoId  String?
+  isActive     Boolean @default(true)
+  createdAt    DateTime @default(now())
+  
+  historicalData HistoricalData[]
+  aiPredictions  AiPrediction[]
+  newsSentiment  NewsSentiment[]
+  
+  @@map("cryptocurrencies")
+}
+
+model HistoricalData {
+  id               String @id @default(cuid())
+  cryptoId         String
+  price            Decimal?
+  marketCap        BigInt?
+  volume24h        BigInt?
+  blockCount       Int?
+  transactionCount Int?
+  hashRate         BigInt?
+  timestamp        DateTime
+  dataSource       String
+  createdAt        DateTime @default(now())
+  
+  cryptocurrency   Cryptocurrency @relation(fields: [cryptoId], references: [id])
+  
+  @@map("historical_data")
+}
+
+model AiPrediction {
+  id              String @id @default(cuid())
+  cryptoId        String
+  predictionType  String
+  predictedValue  Decimal?
+  confidenceScore Decimal?
+  reasoning       String?
+  validUntil      DateTime?
+  createdAt       DateTime @default(now())
+  
+  cryptocurrency  Cryptocurrency @relation(fields: [cryptoId], references: [id])
+  
+  @@map("ai_predictions")
+}
+
+model NewsSentiment {
+  id             String @id @default(cuid())
+  cryptoId       String
+  headline       String
+  url            String?
+  sentimentScore Decimal?
+  source         String?
+  publishedAt    DateTime?
+  createdAt      DateTime @default(now())
+  
+  cryptocurrency Cryptocurrency @relation(fields: [cryptoId], references: [id])
+  
+  @@map("news_sentiment")
+}

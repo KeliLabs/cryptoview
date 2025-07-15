@@ -24,7 +24,8 @@
         "ghcr.io/devcontainers/features/git-lfs:1": {},
         "ghcr.io/devcontainers/features/node:1": {
             "nodeGypDependencies": true,
-            "version": "lts"
+            "version": "20",
+            "nvmVersion": "latest"
         },
         "ghcr.io/devcontainers/features/python:1": {
             "version": "3.12",
@@ -49,15 +50,26 @@
                 "ms-vsliveshare.vsliveshare",
                 "vscode-icons-team.vscode-icons",
                 "visualstudioexptteam.vscodeintellicode",
-                // Essential productivity extensions
-                "ms-vscode.vscode-json",
-                "redhat.vscode-yaml",
-                "ms-python.python",
-                "ms-python.pylint",
-                "ms-python.black-formatter",
+                // Next.js and React development
+                "bradlc.vscode-tailwindcss",
                 "ms-vscode.vscode-typescript-next",
                 "esbenp.prettier-vscode",
                 "dbaeumer.vscode-eslint",
+                "formulahendry.auto-rename-tag",
+                "ms-vscode.vscode-json",
+                "redhat.vscode-yaml",
+                // Database and API development
+                "ms-ossdata.vscode-postgresql",
+                "cweijan.vscode-redis-client",
+                "prisma.prisma",
+                "rangav.vscode-thunder-client",
+                "humao.rest-client",
+                // Python and AI development
+                "ms-python.python",
+                "ms-python.pylint",
+                "ms-python.black-formatter",
+                "ms-python.isort",
+                "ms-toolsai.jupyter",
                 // Git and version control
                 "eamodio.gitlens",
                 "github.copilot",
@@ -89,7 +101,18 @@
                 "git.enableSmartCommit": true,
                 "python.defaultInterpreterPath": "/usr/local/bin/python",
                 "eslint.format.enable": true,
-                "prettier.requireConfig": true
+                "prettier.requireConfig": true,
+                // TypeScript settings
+                "typescript.suggest.autoImports": true,
+                "typescript.updateImportsOnFileMove.enabled": "always",
+                // Tailwind CSS settings
+                "tailwindCSS.experimental.configFile": "./tailwind.config.js",
+                "tailwindCSS.includeLanguages": {
+                    "typescript": "javascript",
+                    "typescriptreact": "javascript"
+                },
+                // Database connections
+                "prisma.showPrismaDataPlatformNotification": false
             }
         }
     },
@@ -97,5 +120,24 @@
     "remoteUser": "vscode",
     "mounts": [
         "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
-    ]
+    ],
+    "forwardPorts": [
+        3000,
+        5432,
+        6379
+    ],
+    "portsAttributes": {
+        "3000": {
+            "label": "Next.js App",
+            "onAutoForward": "notify"
+        },
+        "5432": {
+            "label": "PostgreSQL",
+            "onAutoForward": "silent"
+        },
+        "6379": {
+            "label": "Redis",
+            "onAutoForward": "silent"
+        }
+    }
 }
