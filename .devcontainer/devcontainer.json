@@ -1,0 +1,101 @@
+{
+    "name": "Development Container",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "moby": true,
+            "azureDnsAutoDetection": true,
+            "installDockerBuildx": true
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZsh": true,
+            "upgradePackages": true
+        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "ppa": true,
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/git-lfs:1": {},
+        "ghcr.io/devcontainers/features/node:1": {
+            "nodeGypDependencies": true,
+            "version": "lts"
+        },
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.12",
+            "installTools": true
+        },
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+            "version": "latest",
+            "helm": "latest",
+            "minikube": "none"
+        },
+        "ghcr.io/devcontainers/features/terraform:1": {
+            "version": "latest"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // Core development extensions
+                "cschleiden.vscode-github-actions",
+                "github.vscode-pull-request-github",
+                "ms-azuretools.vscode-docker",
+                "ms-vsliveshare.vsliveshare",
+                "vscode-icons-team.vscode-icons",
+                "visualstudioexptteam.vscodeintellicode",
+                // Essential productivity extensions
+                "ms-vscode.vscode-json",
+                "redhat.vscode-yaml",
+                "ms-python.python",
+                "ms-python.pylint",
+                "ms-python.black-formatter",
+                "ms-vscode.vscode-typescript-next",
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint",
+                // Git and version control
+                "eamodio.gitlens",
+                "github.copilot",
+                "github.copilot-chat",
+                // Development tools
+                "humao.rest-client",
+                "ms-kubernetes-tools.vscode-kubernetes-tools",
+                "hashicorp.terraform",
+                "ms-vscode.live-server",
+                // Code quality and formatting
+                "streetsidesoftware.code-spell-checker",
+                "davidanson.vscode-markdownlint",
+                "editorconfig.editorconfig",
+                "shardulm94.trailing-spaces"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "files.exclude": {
+                    "**/CODE_OF_CONDUCT.md": true,
+                    "**/LICENSE": true
+                },
+                // Additional productivity settings
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                    "source.fixAll.eslint": "explicit"
+                },
+                "files.autoSave": "afterDelay",
+                "git.autofetch": true,
+                "git.enableSmartCommit": true,
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "eslint.format.enable": true,
+                "prettier.requireConfig": true
+            }
+        }
+    },
+    "postCreateCommand": ".devcontainer/scripts/post-create.sh",
+    "remoteUser": "vscode",
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
+    ]
+}
