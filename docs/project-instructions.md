@@ -187,16 +187,17 @@ blockchain-investment-dashboard/
 ### Week 1-2: Project Setup & Core Infrastructure
 - [x] Initialize Next.js project with TypeScript
 - [x] Set up PostgreSQL database and Prisma ORM
-- [ ] Configure Tailwind CSS with dark theme
-- [ ] Set up basic project structure and routing
-- [ ] Create environment configuration
+- [x] Configure Tailwind CSS with dark theme
+- [x] Set up basic project structure and routing
+- [x] Create environment configuration
 
 ### Week 3-4: Data Layer & API Integration
-- [ ] Implement Blockchair API client
-- [ ] Create database models and migrations
-- [ ] Set up data fetching and caching layer
-- [ ] Implement basic CRUD operations
+- [x] Implement Blockchair API client
+- [x] Create database models and migrations
+- [x] Set up data fetching and caching layer
+- [x] Implement basic CRUD operations
 - [ ] Add CoinGecko API integration
+- [ ] Recheck caching
 
 ### Week 5-6: Dashboard UI Development
 - [ ] Create main dashboard layout

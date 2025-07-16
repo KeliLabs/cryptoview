@@ -8,24 +8,24 @@ datasource db {
 }
 
 model Cryptocurrency {
-  id           String @id @default(cuid())
-  symbol       String
+  id           String   @id @default(cuid())
+  symbol       String   @unique
   name         String
   blockchain   String
   blockchairId String?
   coingeckoId  String?
-  isActive     Boolean @default(true)
+  isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
-  
+
   historicalData HistoricalData[]
   aiPredictions  AiPrediction[]
   newsSentiment  NewsSentiment[]
-  
+
   @@map("cryptocurrencies")
 }
 
 model HistoricalData {
-  id               String @id @default(cuid())
+  id               String   @id @default(cuid())
   cryptoId         String
   price            Decimal?
   marketCap        BigInt?
@@ -36,38 +36,38 @@ model HistoricalData {
   timestamp        DateTime
   dataSource       String
   createdAt        DateTime @default(now())
-  
-  cryptocurrency   Cryptocurrency @relation(fields: [cryptoId], references: [id])
-  
+
+  cryptocurrency Cryptocurrency @relation(fields: [cryptoId], references: [id])
+
   @@map("historical_data")
 }
 
 model AiPrediction {
-  id              String @id @default(cuid())
+  id              String    @id @default(cuid())
   cryptoId        String
   predictionType  String
   predictedValue  Decimal?
   confidenceScore Decimal?
   reasoning       String?
   validUntil      DateTime?
-  createdAt       DateTime @default(now())
-  
-  cryptocurrency  Cryptocurrency @relation(fields: [cryptoId], references: [id])
-  
+  createdAt       DateTime  @default(now())
+
+  cryptocurrency Cryptocurrency @relation(fields: [cryptoId], references: [id])
+
   @@map("ai_predictions")
 }
 
 model NewsSentiment {
-  id             String @id @default(cuid())
+  id             String    @id @default(cuid())
   cryptoId       String
   headline       String
   url            String?
   sentimentScore Decimal?
   source         String?
   publishedAt    DateTime?
-  createdAt      DateTime @default(now())
-  
+  createdAt      DateTime  @default(now())
+
   cryptocurrency Cryptocurrency @relation(fields: [cryptoId], references: [id])
-  
+
   @@map("news_sentiment")
 }
