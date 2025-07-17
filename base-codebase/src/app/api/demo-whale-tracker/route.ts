@@ -47,9 +47,9 @@ export async function GET(req: NextRequest) {
       success: true,
       blockchain,
       network_stats: {
-        current_price_usd: stats.data[blockchain]?.market_price_usd || 0,
-        total_transactions: stats.data[blockchain]?.transactions || 0,
-        hash_rate: stats.data[blockchain]?.hash_rate || 0
+        current_price_usd: stats?.data?.market_price_usd || 0,
+        total_transactions: stats?.data.transactions || 0,
+        hash_rate: stats?.data.hash_rate || 0
       },
       whale_data: {
         top_addresses: mockWhaleData,

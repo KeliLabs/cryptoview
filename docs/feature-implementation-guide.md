@@ -317,7 +317,7 @@ export function NetworkHealthMonitor({ blockchain }: { blockchain: Blockchain })
   const calculateHealthScore = (stats: any, mempool: any): NetworkHealth => {
     const avgFee = mempool.data.suggested_transaction_fee_per_byte_sat || 0;
     const mempoolSize = mempool.data.size || 0;
-    const hashRate = stats.data[blockchain]?.hash_rate || 0;
+    const hashRate = stats?.hash_rate || 0;
     
     // Simple health scoring algorithm
     let congestion: 'low' | 'medium' | 'high' = 'low';
@@ -477,8 +477,8 @@ export async function GET(req: NextRequest) {
     // Calculate health metrics
     const avgFee = mempool.data.suggested_transaction_fee_per_byte_sat || 0;
     const mempoolSize = mempool.data.size || 0;
-    const transactionCount = stats.data[blockchain]?.transactions || 0;
-    const hashRate = stats.data[blockchain]?.hash_rate || 0;
+    const transactionCount = stats?.transactions || 0;
+    const hashRate = stats?.hash_rate || 0;
 
     const healthScore = Math.max(0, Math.min(100, 
       100 - (avgFee * 2) - (mempoolSize / 1000000)
@@ -541,7 +541,7 @@ model NetworkHealth {
   avgFee        Decimal
   mempoolSize   BigInt
   hashRate      BigInt?
-  blockTime     Int?
+  blockTime     BigInt?
   timestamp     DateTime
   createdAt     DateTime @default(now())
 

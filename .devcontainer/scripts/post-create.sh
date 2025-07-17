@@ -219,8 +219,8 @@ model HistoricalData {
   price            Decimal?
   marketCap        BigInt?
   volume24h        BigInt?
-  blockCount       Int?
-  transactionCount Int?
+  blockCount       BigInt?
+  transactionCount BigInt?
   hashRate         BigInt?
   timestamp        DateTime
   dataSource       String

@@ -4,14 +4,15 @@ import { CryptocurrencyWithLatestData } from '@/lib/database/data-fetching';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, Activity, Globe, Hash } from 'lucide-react';
-
+import JsonDisplay from '@/components/utils/jsondisplay';
+import { BlockchairStats } from '@/lib/api/blockchair';
 interface CryptocurrencyCardProps {
   cryptocurrency: CryptocurrencyWithLatestData;
 }
 
 export default function CryptocurrencyCard({ cryptocurrency }: CryptocurrencyCardProps) {
   const { blockchainStats } = cryptocurrency;
-  const stats = blockchainStats?.data?.[cryptocurrency.blockchairId as keyof typeof blockchainStats.data];
+  const stats: unknown = blockchainStats?.data;
 
   const formatNumber = (num: number | bigint | null | undefined): string => {
     if (num === null || num === undefined) return 'N/A';
@@ -66,7 +67,7 @@ export default function CryptocurrencyCard({ cryptocurrency }: CryptocurrencyCar
           </div>
         </div>
       </CardHeader>
-      
+      {/* <JsonDisplay jsonData={cryptocurrency} /> */}
       <CardContent className="space-y-4">
         {/* Market Data */}
         <div className="grid grid-cols-2 gap-4">
@@ -156,5 +157,6 @@ export default function CryptocurrencyCard({ cryptocurrency }: CryptocurrencyCar
         </div>
       </CardContent>
     </Card>
+    
   );
 }

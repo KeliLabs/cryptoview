@@ -31,7 +31,7 @@ export class DataFetchingService {
 
     // Get latest historical data
     const latestData = await HistoricalDataService.getLatest(cryptocurrency.id);
-
+    
     // Get blockchain stats from API
     let blockchainStats: BlockchairStats | null = null;
     if (cryptocurrency.blockchairId) {
@@ -69,8 +69,7 @@ export class DataFetchingService {
     // Fetch from API
     try {
       const stats = await getGeneralStats(blockchain);
-      
-      // Cache the result
+      // Cache the result TODO: Uncomment this line to enable caching
       await CacheService.cacheBlockchainStats(blockchain, stats, 300); // 5 minutes
       
       return stats;
@@ -92,13 +91,13 @@ export class DataFetchingService {
     }
 
     const stats = await this.getBlockchainStats(blockchain, forceRefresh);
-    if (!stats || !stats.data) {
+    if (!stats) {
       console.error(`No stats data for blockchain: ${blockchain}`);
       return;
     }
 
     // Access the blockchain-specific data
-    const blockchainData = stats.data[blockchain];
+    const blockchainData = stats?.data;
     if (!blockchainData) {
       console.error(`No blockchain data for: ${blockchain}`);
       return;
@@ -106,23 +105,37 @@ export class DataFetchingService {
 
     const timestamp = new Date();
 
-    // Prepare historical data
+    // Prepare historical data - convert BigInt values to appropriate types
     const historicalData: Omit<HistoricalData, 'id' | 'createdAt'> = {
       cryptoId: cryptocurrency.id,
-      price: blockchainData.market_price_usd ? new Decimal(blockchainData.market_price_usd.toString()) : null,
-      marketCap: blockchainData.market_cap_usd ? BigInt(Math.floor(blockchainData.market_cap_usd)) : null,
-      volume24h: blockchainData.volume_usd ? BigInt(Math.floor(blockchainData.volume_usd)) : null,
-      blockCount: blockchainData.blocks || null,
-      transactionCount: blockchainData.transactions || null,
-      hashRate: blockchainData?.hashrate_24h ? BigInt(blockchainData?.hashrate_24h) : null,
+      // price: blockchainData.market_price_usd ? new Decimal(blockchainData.market_price_usd.toString()) : null,
+      // marketCap: blockchainData.market_cap_usd ? BigInt(Math.floor(blockchainData.market_cap_usd)) : null,
+      // volume24h: blockchainData.volume_24h ? BigInt(Math.floor(blockchainData.volume_24h)) : null,
+      // blockCount: blockchainData.blocks || null,
+      // transactionCount: blockchainData.transactions || null,
+      // hashRate: blockchainData.hashrate_24h ? BigInt(Math.floor(blockchainData.hashrate_24h)) : null,
       timestamp,
       dataSource: 'blockchair',
     };
+    
+    // TODO: Fix the bigint parsing issues in the historical data
 
     // Store in database
     await HistoricalDataService.store(historicalData);
   }
-
+/*
+static sanitizeHistoricalData(input: any): any {
+  return {
+    ...input,
+    marketCap: input.marketCap?.toString(),
+    volume24h: input.volume24h?.toString(),
+    blockCount: input.blockCount?.toString(),
+    transactionCount: input.transactionCount?.toString(),
+    // hashRate: input.hashRate?.toString(),
+    timestamp: new Date(input.timestamp), // Ensure Date
+  };
+}
+*/
   // Get all cryptocurrencies with latest data
   static async getAllCryptocurrencies(
     forceRefresh: boolean = false

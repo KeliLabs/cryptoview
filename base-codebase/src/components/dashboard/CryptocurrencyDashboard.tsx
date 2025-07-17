@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { CryptocurrencyWithLatestData } from '@/lib/database/data-fetching';
 import CryptocurrencyCard from './CryptocurrencyCard';
+import DataDebugger from './DataDebugger';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, AlertCircle, Loader2 } from 'lucide-react';
+import JsonDisplay from '@/components/utils/jsondisplay';
 
 export default function CryptocurrencyDashboard() {
   const [cryptocurrencies, setCryptocurrencies] = useState<CryptocurrencyWithLatestData[]>([]);
@@ -72,8 +74,27 @@ export default function CryptocurrencyDashboard() {
     );
   }
 
+  // const JsonDisplay = (jsonData: unknown) => {
+  //   return (
+  //     <pre>{JSON.stringify(jsonData, null, 2)}</pre>
+  //   );
+  // }
+
+
   return (
     <div className="container mx-auto p-6 space-y-6">
+      <DataDebugger 
+        title="Custom POST Request"
+        endpoint="/api/refresh-data"
+        method="POST"
+        postData={{
+          symbols: ['BTC', 'ETH'],
+          forceRefresh: true
+        }}
+        autoRefresh={false}
+      />
+      {/* <JsonDisplay jsonData={cryptocurrencies} /> */}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -93,7 +114,7 @@ export default function CryptocurrencyDashboard() {
         </Button>
       </div>
 
-      {/* Statistics Summary */}
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
           <h3 className="font-semibold text-blue-700 dark:text-blue-300">Total Cryptocurrencies</h3>

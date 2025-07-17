@@ -7,7 +7,8 @@ export type Blockchain = 'bitcoin' | 'ethereum' | 'bitcoin-cash' | 'litecoin';
 
 export interface BlockchairStats {
   data: {
-    [blockchain: string]: {
+  //   [blockchain: string]: 
+  //   {
       blocks: number;
       transactions: number;
       outputs?: number;
@@ -22,7 +23,7 @@ export interface BlockchairStats {
       average_transaction_fee_usd?: number;
       hashrate_24h?: number;
       // ...other stats fields
-    };
+  //   };
   };
 }
 
