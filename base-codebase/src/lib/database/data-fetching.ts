@@ -104,24 +104,30 @@ export class DataFetchingService {
     }
 
     const timestamp = new Date();
+    const price =  blockchainData.market_price_usd ? new Decimal(blockchainData.market_price_usd.toString()) : null;
+    const marketCap = blockchainData.market_cap_usd ? Math.floor(blockchainData.market_cap_usd) : null;
+    const volume24h = blockchainData.volume_24h ? Math.floor(blockchainData.volume_24h) : null;
+    const blockCount = blockchainData.blocks || null;
+    const transactionCount = blockchainData.transactions || null;
+    const hashRate = blockchainData.hashrate_24h ? Math.floor(blockchainData.hashrate_24h) : null;
 
     // Prepare historical data - convert BigInt values to appropriate types
-    const historicalData: Omit<HistoricalData, 'id' | 'createdAt'> = {
-      cryptoId: cryptocurrency.id,
-      // price: blockchainData.market_price_usd ? new Decimal(blockchainData.market_price_usd.toString()) : null,
-      // marketCap: blockchainData.market_cap_usd ? BigInt(Math.floor(blockchainData.market_cap_usd)) : null,
-      // volume24h: blockchainData.volume_24h ? BigInt(Math.floor(blockchainData.volume_24h)) : null,
-      // blockCount: blockchainData.blocks || null,
-      // transactionCount: blockchainData.transactions || null,
-      // hashRate: blockchainData.hashrate_24h ? BigInt(Math.floor(blockchainData.hashrate_24h)) : null,
-      timestamp,
-      dataSource: 'blockchair',
-    };
+    // const historicalData: Omit<HistoricalData, 'id' | 'createdAt'> = 
     
     // TODO: Fix the bigint parsing issues in the historical data
 
     // Store in database
-    await HistoricalDataService.store(historicalData);
+    await HistoricalDataService.store({
+      cryptoId: cryptocurrency.id,
+      price: price,
+      marketCap: marketCap,
+      volume24h: volume24h,
+      blockCount: blockCount,
+      transactionCount: transactionCount,
+      hashRate: hashRate,
+      timestamp,
+      dataSource: 'blockchair',
+    });
   }
 /*
 static sanitizeHistoricalData(input: any): any {

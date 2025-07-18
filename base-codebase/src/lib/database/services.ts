@@ -64,7 +64,6 @@ export class CryptocurrencyService {
 export class HistoricalDataService {
   // Store historical data
   static async store(data: Omit<HistoricalData, 'id' | 'createdAt'>): Promise<HistoricalData> {
-    console.log(`Storing historical data for ${data.cryptoId} at ${data.timestamp.toISOString()}`, data);
     return prisma.historicalData.create({
       data,
     });

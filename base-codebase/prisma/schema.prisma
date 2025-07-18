@@ -27,12 +27,12 @@ model Cryptocurrency {
 model HistoricalData {
   id               String   @id @default(cuid())
   cryptoId         String
-  price            Decimal?
-  marketCap        BigInt?
-  volume24h        BigInt?
-  blockCount       BigInt?
-  transactionCount BigInt?
-  hashRate         BigInt?
+  price            Decimal? @db.Decimal
+  marketCap        Float?  @db.DoublePrecision
+  volume24h        Float?  @db.DoublePrecision
+  blockCount       Float?  @db.DoublePrecision
+  transactionCount Float?  @db.DoublePrecision
+  hashRate         Float?  @db.DoublePrecision
   timestamp        DateTime
   dataSource       String
   createdAt        DateTime @default(now())
