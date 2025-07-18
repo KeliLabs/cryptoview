@@ -81,12 +81,12 @@ CREATE TABLE cryptocurrencies (
 CREATE TABLE historical_data (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     crypto_id UUID REFERENCES cryptocurrencies(id),
-    price DECIMAL(20,8),
-    market_cap BIGINT,
-    volume_24h BIGINT,
-    block_count INTEGER,
-    transaction_count INTEGER,
-    hash_rate BIGINT,
+    price NUMERIC,
+    market_cap DOUBLE PRECISION,
+    volume_24h DOUBLE PRECISION,
+    block_count DOUBLE PRECISION,
+    transaction_count DOUBLE PRECISION,
+    hash_rate DOUBLE PRECISION,
     timestamp TIMESTAMP NOT NULL,
     data_source VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
