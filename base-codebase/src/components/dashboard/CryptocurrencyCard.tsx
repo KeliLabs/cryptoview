@@ -6,13 +6,43 @@ import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, Activity, Globe, Hash } from 'lucide-react';
 import JsonDisplay from '@/components/utils/jsondisplay';
 import { BlockchairStats } from '@/lib/api/blockchair';
+import { useRouter } from 'next/navigation';
+
+// Extended interface for the actual API response that includes additional fields
+interface ExtendedBlockchairStatsData {
+  blocks: number;
+  transactions: number;
+  outputs?: number;
+  volume_usd?: number;
+  mempool_transactions?: number;
+  mempool_size?: number;
+  market_price_usd?: number;
+  market_price_btc?: number;
+  market_cap_usd?: number;
+  hash_rate?: number;
+  inflation_usd?: number;
+  average_transaction_fee_usd?: number;
+  hashrate_24h?: number | string;
+  volume_24h?: number;
+  blocks_24h?: number;
+  transactions_24h?: number;
+  difficulty?: number;
+  circulation?: number;
+  best_block_time?: string;
+  market_price_usd_change_24h_percentage?: number;
+}
 interface CryptocurrencyCardProps {
   cryptocurrency: CryptocurrencyWithLatestData;
 }
 
 export default function CryptocurrencyCard({ cryptocurrency }: CryptocurrencyCardProps) {
+  const router = useRouter();
   const { blockchainStats } = cryptocurrency;
-  const stats: unknown = blockchainStats?.data;
+  const stats = blockchainStats?.data as ExtendedBlockchairStatsData;
+
+  const handleCardClick = () => {
+    router.push(`/crypto/${cryptocurrency.symbol.toLowerCase()}`);
+  };
 
   const formatNumber = (num: number | bigint | null | undefined): string => {
     if (num === null || num === undefined) return 'N/A';
@@ -42,7 +72,10 @@ export default function CryptocurrencyCard({ cryptocurrency }: CryptocurrencyCar
   const isPriceUp = priceChange && priceChange > 0;
 
   return (
-    <Card className="w-full max-w-md">
+    <Card 
+      className="w-full max-w-md cursor-pointer hover:shadow-lg transition-shadow duration-200" 
+      onClick={handleCardClick}
+    >
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>

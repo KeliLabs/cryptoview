@@ -202,7 +202,7 @@ blockchain-investment-dashboard/
 ### Week 5-6: Dashboard UI Development
 - [x] Create main dashboard layout
 - [x] Implement cryptocurrency cards/tiles
-- [ ] Add price charts and historical data visualization
+- [x] Add price charts and historical data visualization
 - [x] Create refresh toggle functionality
 - [x] Implement responsive design
 
