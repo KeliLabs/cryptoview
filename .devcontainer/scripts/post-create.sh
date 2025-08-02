@@ -286,15 +286,17 @@ fi
 # Generate Prisma client only if needed
 if [ ! -d "node_modules/@prisma/client" ] || [ ! -f "node_modules/.prisma/client/index.js" ]; then
     echo "🔄 Generating Prisma client..."
-    npx prisma generate
+    npx --yes prisma generate
 else
     echo "✅ Prisma client already generated"
 fi
 
 # Try to run migrations (will fail if DB isn't ready, but that's okay)
 echo "🚀 Running database migrations..."
-npx prisma db push || echo "⚠️ Database not ready for migrations, run 'npx prisma db push' later"
+npx --yes prisma db push || echo "⚠️ Database not ready for migrations, run 'npx prisma db push' later"
 
+echo "Initializing bitcoins in database"
+npx tsx prisma/seed.ts
 # Return to root directory for the rest of the script
 cd /workspaces/cryptoview
 
